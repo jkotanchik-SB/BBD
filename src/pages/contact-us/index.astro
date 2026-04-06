@@ -1,0 +1,218 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+
+const holidays = [
+  "New Year's Day",
+  "Martin Luther King Jr. Day",
+  "Memorial Day",
+  "Independence Day",
+  "Labor Day",
+  "Veterans Day",
+  "Thanksgiving",
+  "Day after Thanksgiving",
+  "Christmas Eve",
+  "Christmas",
+];
+---
+<BaseLayout title="Contact Us | MADiE">
+  <PageHero title="Contact Us" />
+
+  <div class="contact-layout">
+    <div class="container contact-layout__inner">
+
+      <main class="contact-main">
+        <section class="contact-section">
+          <h2 class="contact-section__heading">Contact the Support Desk</h2>
+          <p>
+            Please use the Issue Tracker located <a href="https://oncprojectracking.healthit.gov/support/projects/MADIE/summary">here</a> to submit questions, technical issues or suggest an enhancement. To submit a question, issue or enhancement request, you will need to have an ONC Product Tracking Tool account. You can register for an account <a href="https://oncprojectracking.healthit.gov/support/secure/Signup!default.jspa">here</a>.
+          </p>
+          <p>Please use the Contact Us form below to submit questions regarding user account registration, reactivation, or account deletion.</p>
+        </section>
+
+        <section class="contact-section">
+          <h2 class="contact-section__heading">Contact Form</h2>
+          <form class="contact-form" action="https://www.emeasuretool.cms.gov/contact-us" method="post" novalidate>
+            <div class="form-row">
+              <label class="form-label" for="name">Name <span class="required" aria-hidden="true">*</span></label>
+              <input class="form-input" type="text" id="name" name="name" required autocomplete="name" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="email">Email Address <span class="required" aria-hidden="true">*</span></label>
+              <input class="form-input" type="email" id="email" name="email" required autocomplete="email" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="org">Organization</label>
+              <input class="form-input" type="text" id="org" name="organization" autocomplete="organization" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="phone">Phone Number <span class="required" aria-hidden="true">*</span></label>
+              <input class="form-input" type="tel" id="phone" name="phone" required autocomplete="tel" />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="subject">Subject <span class="required" aria-hidden="true">*</span></label>
+              <input class="form-input" type="text" id="subject" name="subject" required />
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="message">Message <span class="required" aria-hidden="true">*</span></label>
+              <textarea class="form-textarea" id="message" name="message" rows="6" required></textarea>
+            </div>
+            <div class="form-row">
+              <label class="form-label" for="attachment">Attachment</label>
+              <input class="form-input-file" type="file" id="attachment" name="attachment" accept=".gif,.jpg,.jpeg,.png,.bmp,.txt,.rtf,.odf,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.xml" />
+              <p class="form-hint">One file only. 8 MB limit. Allowed types: gif, jpg, jpeg, png, bmp, txt, rtf, odf, pdf, doc, docx, ppt, pptx, xls, xlsx, xml.</p>
+            </div>
+            <p class="required-note"><span class="required" aria-hidden="true">*</span> Indicates required field</p>
+            <button class="btn btn-primary form-submit" type="submit">Send</button>
+          </form>
+        </section>
+      </main>
+
+      <aside class="contact-sidebar">
+        <div class="sidebar-card">
+          <h2 class="sidebar-card__heading">Support Desk</h2>
+          <h3 class="sidebar-card__subheading">Hours of Operation</h3>
+          <ul class="sidebar-card__hours">
+            <li>Monday – Friday</li>
+            <li>8:00 am – 5:00 pm</li>
+            <li>Eastern Time</li>
+          </ul>
+          <h3 class="sidebar-card__subheading">Closed on Federal Holidays</h3>
+          <ul class="sidebar-card__holidays">
+            {holidays.map((h) => <li>{h}</li>)}
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-layout {
+    padding: 3rem 0;
+  }
+  .contact-layout__inner {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+    align-items: start;
+  }
+  .contact-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-base-lighter);
+  }
+  .contact-section:last-child {
+    border-bottom: none;
+  }
+  .contact-section__heading {
+    font-size: 1.5rem;
+    color: var(--color-primary-darker);
+    margin-bottom: 1rem;
+  }
+  .contact-section p {
+    color: var(--color-base-dark);
+    line-height: 1.7;
+    max-width: 72ch;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Form */
+  .contact-form {
+    max-width: 600px;
+  }
+  .form-row {
+    margin-bottom: 1.25rem;
+  }
+  .form-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+    color: var(--color-base-darkest);
+  }
+  .required {
+    color: var(--color-accent);
+    margin-left: 0.1em;
+  }
+  .required-note {
+    font-size: 0.85rem;
+    color: var(--color-base);
+    margin-bottom: 1.5rem;
+  }
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--color-base-light);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: var(--color-ink);
+    background: var(--color-white);
+    transition: border-color 0.15s;
+  }
+  .form-input:focus,
+  .form-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(0, 94, 162, 0.2);
+  }
+  .form-input-file {
+    font-size: 0.9rem;
+  }
+  .form-hint {
+    font-size: 0.8rem;
+    color: var(--color-base);
+    margin-top: 0.3rem;
+  }
+  .form-textarea {
+    resize: vertical;
+  }
+  .form-submit {
+    margin-top: 0.5rem;
+  }
+
+  /* Sidebar */
+  .contact-sidebar {
+    position: sticky;
+    top: 1.5rem;
+  }
+  .sidebar-card {
+    background: var(--color-base-lightest);
+    border-left: 4px solid var(--color-primary);
+    padding: 1.25rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .sidebar-card__heading {
+    font-size: 1.1rem;
+    color: var(--color-primary-darker);
+    margin-bottom: 0.75rem;
+  }
+  .sidebar-card__subheading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-base-dark);
+    margin: 1rem 0 0.4rem;
+  }
+  .sidebar-card__hours,
+  .sidebar-card__holidays {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-base-dark);
+    line-height: 1.8;
+  }
+
+  @media (max-width: 900px) {
+    .contact-layout__inner {
+      grid-template-columns: 1fr;
+    }
+    .contact-sidebar {
+      position: static;
+      order: -1;
+    }
+  }
+</style>
