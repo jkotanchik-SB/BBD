@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+
+const articles = [
+  {
+    title: "MADiE User Group",
+    date: "Apr 18, 2025",
+    href: "https://www.emeasuretool.cms.gov/news-alerts/madie-user-group-0",
+    body: "The MADiE User Group is an open forum to discuss the status of the tools and gather community and user feedback on planned enhancements and releases. A new appointment series has been created from May 2025 – April 2026.",
+  },
+  {
+    title: "MADiE User Group",
+    date: "Apr 30, 2024",
+    href: "https://www.emeasuretool.cms.gov/news-alerts/madie-user-group",
+    body: "The MADiE User Group is an open forum to discuss the status of the tools and gather community and user feedback on planned enhancements and releases. A new appointment series has been created from May 2024 – April 2025.",
+  },
+  {
+    title: "MAT and Bonnie Migration – Action Needed",
+    date: "Mar 8, 2024",
+    href: "https://www.emeasuretool.cms.gov/news-alerts/mat-and-bonnie-migration-action-needed",
+    body: "Important announcement from CMS: MAT and Bonnie decommissioning date finalized - June 28, 2024.",
+  },
+  {
+    title: "MAT, Bonnie, and MADiE User Group",
+    date: "May 15, 2023",
+    href: "https://www.emeasuretool.cms.gov/news-alerts/mat-bonnie-and-madie-user-group",
+    body: "The MAT and Bonnie User Group is an open forum to discuss the status of the tools and gather community and user feedback on planned enhancements and releases. A new appointment series has been created from May 2023 – April 2024. The User Group is scheduled to meet the third Thursday of every month.",
+  },
+];
+---
+<BaseLayout title="News & Alerts | MADiE">
+  <PageHero title="News & Alerts" />
+
+  <section class="news-list">
+    <div class="container">
+      {articles.map((article) => (
+        <article class="news-article">
+          <time class="news-article__date">{article.date}</time>
+          <h2 class="news-article__title">
+            <a href={article.href}>{article.title}</a>
+          </h2>
+          <p class="news-article__body">{article.body}</p>
+          <a href={article.href} class="news-article__readmore">Read More »</a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .news-list {
+    padding: 3rem 0;
+  }
+  .news-article {
+    border-bottom: 1px solid var(--color-base-lighter);
+    padding: 2rem 0;
+  }
+  .news-article:first-child {
+    padding-top: 0;
+  }
+  .news-article__date {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--color-base);
+    margin-bottom: 0.4rem;
+  }
+  .news-article__title {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+  }
+  .news-article__title a {
+    color: var(--color-primary-darker);
+    text-decoration: none;
+  }
+  .news-article__title a:hover {
+    text-decoration: underline;
+  }
+  .news-article__body {
+    color: var(--color-base-dark);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    max-width: 72ch;
+  }
+  .news-article__readmore {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+</style>

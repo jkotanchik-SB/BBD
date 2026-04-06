@@ -1,0 +1,190 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+
+const technicalFaqs = [
+  {
+    q: "Are there step-by-step instructions for setting up MADiE from source code?",
+    a: `Yes. For individuals who are comfortable with performing the installation of software components and modules, step-by-step instructions exist here. MADiE is comprised of a number of micro-services and micro-frontends. Because of this architecture, there is no singular repository that is "MADiE", but all needed repositories can be found on <a href="https://github.com/MeasureAuthoringTool">GitHub</a>.`,
+  },
+  {
+    q: "What web browsers can be used with MADiE?",
+    a: `MADiE currently supports the latest versions of Microsoft Edge and Google Chrome. Chrome is the recommended browser.`,
+  },
+  {
+    q: "What technologies does MADiE use?",
+    a: `MADiE's frontend and backend are built on different technologies. The frontend is written primarily in React (TypeScript), and deployed as micro-frontends using a framework called single-spa. The backends are written primarily as RESTful web services in Java using the Spring Boot framework. MADiE uses MongoDB as a datastore.`,
+  },
+  {
+    q: "Is MADiE related to HL7 / HQMF?",
+    a: `MADiE currently supports two data models – QDM and QI-Core. For QDM measures, MADiE supports an export of an XML file based on the HL7 HQMF standard. For QI-Core measures, MADiE supports a FHIR resource structured export in both JSON and XML format. For both models, it supports other exports generated based on the Clinical Quality Language (CQL).`,
+  },
+  {
+    q: "Can I download a previous version of MADiE?",
+    a: `Because MADiE is comprised of a number of micro-frontends and micro-services, running a specific, previous version of MADiE would require targeting specific commits in the history of each needed repository. MADiE releases are based on the completion of a scope of work in a specific sprint. At the end of each sprint, any modified repositories are tagged to indicate they should be released. The format for this tag is "sprint/&lt;sprint_name&gt;-&lt;date&gt;" and can be viewed on the list of tags under each repository on <a href="https://github.com/MeasureAuthoringTool">GitHub</a>. In short, it is possible to download a previous version of MADiE, however, it is harder than running the latest version.`,
+  },
+];
+
+const openSourceFaqs = [
+  {
+    q: "How is communication managed on the open-source project?",
+    a: `Current activities and public communication are maintained on this website. Whenever possible, please utilize resources available here. For further information, you can contact the MADiE Support Desk via the <a href="/contact-us">Contact Us</a> page of this website.`,
+  },
+  {
+    q: "Can I contribute software source code to MADiE?",
+    a: `Yes. Code contributions, bug fixes, and enhancement requests are all welcome. A requirement for contributing is that any and all software contributed to MADiE projects is released under a Creative Commons CC0 distribution license, and that you transfer copyright of any code submitted. Do not include any third party software in a submission. If third party software is required, you must include detailed instructions on how to acquire that software directly from the third party.<br><br>To submit a new feature for consideration, you must set up an account on <a href="https://github.com/">GitHub</a>. Log in, navigate to the <a href="https://github.com/MeasureAuthoringTool">MAT repository</a>, and fork the specific MADiE project repository to create a branch. When your contribution is complete, email the link to your branch to the MADiE Support Desk. You must include an explanation of the included changes.<br><br>If you wish to contribute a bug or enhancement request, contact the MADiE Support Desk with either the details to reproduce the bug, or a detailed description about the suggested enhancement.`,
+  },
+  {
+    q: "Are there coding conventions that I must follow to submit code?",
+    a: `Yes. The MADiE open source community is dedicated to ensuring that the code base always meets a high standard. Any code contribution should adhere to both <a href="http://checkstyle.sourceforge.net/">Checkstyle</a> and <a href="http://pmd.sourceforge.net/">PMD</a> coding standards. Further, any code contributions must include mature unit tests in order to be accepted.`,
+  },
+  {
+    q: "What response can I expect after submitting a code contribution?",
+    a: `Your contribution will be tracked and then evaluated by the MADiE development team. You will receive a response that this process has begun within five business days of submission. Once the team has evaluated your contribution, you will receive notice of the next step. The contribution will either be rejected, with an applicable explanation, or accepted.`,
+  },
+];
+---
+<BaseLayout title="Open Source Community | MADiE">
+  <PageHero title="Open Source Community" />
+
+  <div class="oss-layout">
+    <div class="container oss-layout__inner">
+      <main class="oss-main">
+
+        <section class="oss-section" id="technical-details">
+          <h2 class="oss-section__heading">Technical Details</h2>
+          <div class="faq-list">
+            {technicalFaqs.map((faq) => (
+              <details class="faq-item">
+                <summary class="faq-item__question">{faq.q}</summary>
+                <div class="faq-item__answer" set:html={faq.a} />
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section class="oss-section" id="open-source">
+          <h2 class="oss-section__heading">Open Source</h2>
+          <div class="faq-list">
+            {openSourceFaqs.map((faq) => (
+              <details class="faq-item">
+                <summary class="faq-item__question">{faq.q}</summary>
+                <div class="faq-item__answer" set:html={faq.a} />
+              </details>
+            ))}
+          </div>
+        </section>
+
+      </main>
+
+      <aside class="oss-sidebar">
+        <div class="sidebar-card">
+          <h2 class="sidebar-card__heading">Helpful Links</h2>
+          <ul class="sidebar-card__list">
+            <li><a href="https://github.com/MeasureAuthoringTool">GitHub Repository</a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .oss-layout {
+    padding: 3rem 0;
+  }
+  .oss-layout__inner {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 3rem;
+    align-items: start;
+  }
+  .oss-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-base-lighter);
+  }
+  .oss-section:last-child {
+    border-bottom: none;
+  }
+  .oss-section__heading {
+    font-size: 1.5rem;
+    color: var(--color-primary-darker);
+    margin-bottom: 1rem;
+  }
+
+  /* FAQ (shared patterns) */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .faq-item {
+    border: 1px solid var(--color-base-lighter);
+    border-radius: 4px;
+  }
+  .faq-item__question {
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-item__question::after {
+    content: "+";
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+  details[open] .faq-item__question::after {
+    content: "−";
+  }
+  .faq-item__answer {
+    padding: 0 1.25rem 1rem;
+    color: var(--color-base-dark);
+    line-height: 1.7;
+  }
+
+  /* Sidebar */
+  .oss-sidebar {
+    position: sticky;
+    top: 1.5rem;
+  }
+  .sidebar-card {
+    background: var(--color-base-lightest);
+    border-left: 4px solid var(--color-primary);
+    padding: 1.25rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .sidebar-card__heading {
+    font-size: 1.1rem;
+    color: var(--color-primary-darker);
+    margin-bottom: 0.75rem;
+  }
+  .sidebar-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .sidebar-card__list li {
+    padding: 0.4rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--color-base-lighter);
+  }
+  .sidebar-card__list li:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 900px) {
+    .oss-layout__inner {
+      grid-template-columns: 1fr;
+    }
+    .oss-sidebar {
+      position: static;
+      order: -1;
+    }
+  }
+</style>
