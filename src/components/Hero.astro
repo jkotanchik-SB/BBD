@@ -1,0 +1,99 @@
+---
+/* Hero section — Secure Login CTA */
+---
+<section class="hero" aria-label="Secure login">
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <h1 class="hero__heading">Measure Authoring Development Integrated Environment (MADiE)</h1>
+      <h2 class="hero__subheading">Secure Login</h2>
+      <p class="hero__text">
+        To log in to MADiE, a user account is required. If you are unable to log in to your MADiE account, please contact the support desk.
+      </p>
+      <div class="hero__actions">
+        <a href="https://madie.cms.gov/" class="btn btn-primary">Log in to MADiE</a>
+        <a
+          href="https://www.emeasuretool.cms.gov/sites/default/files/2022-11/MADiEAccessGuide_1.0_508.pdf"
+          class="btn btn-outline btn-outline--white"
+        >
+          MADiE Access Guide
+        </a>
+      </div>
+    </div>
+    <div class="hero__image-wrapper">
+      <img
+        src="/images/logo-cmsgov.svg"
+        alt="CMS.gov logo"
+        class="hero__logo-img"
+        width="230"
+        height="55"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: linear-gradient(135deg, var(--color-primary-darker) 0%, var(--color-primary-dark) 100%);
+    color: var(--color-white);
+    padding: 4rem 0;
+  }
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .hero__heading {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .hero__subheading {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .hero__text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .btn-outline--white {
+    color: var(--color-white);
+    border-color: var(--color-white);
+  }
+  .btn-outline--white:hover {
+    background: var(--color-white);
+    color: var(--color-primary-darker);
+  }
+  .hero__image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .hero__logo-img {
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+
+  @media (max-width: 768px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+    }
+    .hero__image-wrapper {
+      display: none;
+    }
+    .hero__heading {
+      font-size: 1.5rem;
+    }
+    .hero {
+      padding: 2.5rem 0;
+    }
+  }
+</style>

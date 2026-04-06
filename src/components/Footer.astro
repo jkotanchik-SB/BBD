@@ -1,0 +1,204 @@
+---
+/* Site footer — mirroring CMS footer structure */
+const additionalLinks = [
+  { label: "Medicare.gov", href: "https://www.medicare.gov/" },
+  { label: "MyMedicare.gov", href: "https://www.mymedicare.gov/" },
+  { label: "Medicaid.gov", href: "https://www.medicaid.gov/" },
+  { label: "InsureKidsNow.gov", href: "https://www.insurekidsnow.gov/" },
+  { label: "HealthCare.gov", href: "https://www.healthcare.gov/" },
+  { label: "HHS.gov", href: "https://www.hhs.gov/" },
+];
+
+const legalLinks = [
+  { label: "Acronyms", href: "https://www.cms.gov/apps/acronyms" },
+  { label: "Archive", href: "https://www.archive-it.org/collections/2744" },
+  { label: "Contacts", href: "https://www.cms.gov/apps/contacts/" },
+  { label: "Glossary", href: "https://www.cms.gov/apps/glossary/" },
+  { label: "Web Policies", href: "https://www.cms.gov/About-CMS/Agency-Information/Aboutwebsite" },
+  { label: "Plain Language", href: "https://www.medicare.gov/about-us/plain-writing" },
+  { label: "No Fear Act", href: "https://www.cms.gov/About-CMS/Agency-Information/Aboutwebsite/NoFearAct" },
+  { label: "Freedom of Information Act", href: "https://www.cms.gov/center/freedom-of-information-act-center.html" },
+  { label: "Inspector General", href: "https://www.oig.hhs.gov/" },
+];
+
+const socialLinks = [
+  { label: "Facebook", href: "https://www.facebook.com/pages/Centers-for-Medicare-and-Medicaid-Services/130543856995834", icon: "facebook" },
+  { label: "Twitter", href: "https://twitter.com/cmsgov", icon: "twitter" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/centers-for-medicare-&-medicaid-services/", icon: "linkedin" },
+];
+---
+<footer class="site-footer">
+  <!-- Upper footer -->
+  <div class="footer-upper">
+    <div class="container footer-upper__inner">
+      <div class="footer-upper__branding">
+        <div class="footer-upper__logos">
+          <a href="https://www.hhs.gov/" aria-label="HHS.gov">
+            <img
+              src="/images/logo-hhs.png"
+              alt="HHS Logo"
+              width="60"
+              height="60"
+              loading="lazy"
+            />
+          </a>
+          <a href="https://www.cms.gov/" aria-label="CMS.gov">
+            <img
+              src="/images/logo-cmsgov.png"
+              alt="CMS Logo"
+              width="154"
+              height="37"
+              loading="lazy"
+            />
+          </a>
+        </div>
+        <p class="footer-upper__agency">
+          A federal government website managed and paid for by the U.S. Centers
+          for Medicare &amp; Medicaid Services.
+        </p>
+        <address class="footer-upper__address">
+          7500 Security Boulevard, Baltimore, MD 21244
+        </address>
+      </div>
+
+      <div class="footer-upper__links">
+        <h3 class="footer-upper__links-heading">Additional Links</h3>
+        <ul class="footer-upper__links-list">
+          {additionalLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="footer-upper__social">
+        <h3 class="footer-upper__links-heading">Follow CMS</h3>
+        <div class="footer-upper__social-links">
+          {socialLinks.map((link) => (
+            <a href={link.href} class="footer-social-link" aria-label={`Follow on ${link.label}`}>
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lower footer -->
+  <div class="footer-lower">
+    <div class="container footer-lower__inner">
+      <ul class="footer-lower__links">
+        {legalLinks.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 0;
+  }
+
+  /* Upper footer */
+  .footer-upper {
+    background: var(--color-footer-bg);
+    color: var(--color-white);
+    padding: 3rem 0 2rem;
+  }
+  .footer-upper__inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+  }
+  .footer-upper__logos {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .footer-upper__logos img {
+    filter: brightness(0) invert(1);
+  }
+  .footer-upper__agency {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  .footer-upper__address {
+    font-style: normal;
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+  .footer-upper__links-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .footer-upper__links-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .footer-upper__links-list li {
+    margin-bottom: 0.4rem;
+  }
+  .footer-upper__links-list a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .footer-upper__links-list a:hover {
+    color: var(--color-white);
+    text-decoration: underline;
+  }
+  .footer-upper__social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .footer-social-link {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .footer-social-link:hover {
+    color: var(--color-white);
+    text-decoration: underline;
+  }
+
+  /* Lower footer */
+  .footer-lower {
+    background: #000;
+    padding: 1rem 0;
+  }
+  .footer-lower__inner {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .footer-lower__links {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.25rem 1.25rem;
+  }
+  .footer-lower__links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.8rem;
+  }
+  .footer-lower__links a:hover {
+    color: var(--color-white);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .footer-upper__inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>
