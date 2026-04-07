@@ -34,15 +34,14 @@
   "resources": [
     {
       "id": "1",
-      "title": "MADiE User Guide Crime",
+      "title": "MADiE User Guide",
       "description": "Complete guide covering all features of the MADiE application including measure creation, editing, and testing.",
       "section": "user-guides",
       "type": "pdf",
-      "filename": "",
+      "filename": "MADiE_UserGuide_v3.0.pdf",
       "version": "3.0",
       "dateUpdated": "March 2024",
-      "sortOrder": 0,
-      "url": ""
+      "sortOrder": 0
     },
     {
       "id": "2",
@@ -187,7 +186,7 @@
     },
     {
       "id": "rn-2026-1",
-      "title": "March 17, 2026 - v3.0.0 Cool",
+      "title": "March 17, 2026 - v3.0.0",
       "description": "MADiE v3.0.0 Release Notes",
       "section": "release-notes",
       "type": "pdf",
@@ -195,9 +194,7 @@
       "version": "3.0.0",
       "releaseDate": "2026-03-17",
       "year": 2026,
-      "sortOrder": 0,
-      "filename": "",
-      "dateUpdated": ""
+      "sortOrder": 0
     },
     {
       "id": "rn-2026-2",
@@ -297,11 +294,11 @@
     },
     {
       "id": "1b54ec19-85ae-4e36-b108-8006dee8a1f3",
-      "title": "April 7, 2026 - v2.3.0 Cool",
+      "title": "April 7, 2026 - v2.3.0",
       "description": "",
       "section": "release-notes",
       "type": "pdf",
-      "filename": "",
+      "filename": "MADiE_2.3.0_Release_Notes_1775573347812.pdf",
       "url": "",
       "version": "2.3.0",
       "dateUpdated": "April 7, 2026",

@@ -32,14 +32,22 @@ function formatDate(iso?: string): string {
     </div>
 
     <div class="news__grid">
-      {newsItems.map((item) => (
-        <article class="news-card">
-          <h3 class="news-card__title">{item.title}</h3>
-          <time class="news-card__date">{formatDate(item.releaseDate)}</time>
-          <p class="news-card__excerpt">{item.description}</p>
-          <a href={resourceUrl(item)} class="news-card__link">READ MORE</a>
-        </article>
-      ))}
+      {newsItems.map((item) => {
+        const href = resourceUrl(item);
+        const isReal = href !== "#";
+        return (
+          <article class="news-card">
+            <h3 class="news-card__title">{item.title}</h3>
+            <time class="news-card__date">{formatDate(item.releaseDate)}</time>
+            <p class="news-card__excerpt">{item.description}</p>
+            {isReal ? (
+              <a href={href} class="news-card__link" target="_blank" rel="noopener noreferrer">READ MORE</a>
+            ) : (
+              <span class="news-card__link news-card__link--none">No link available</span>
+            )}
+          </article>
+        );
+      })}
     </div>
   </div>
 </section>
@@ -99,6 +107,12 @@ function formatDate(iso?: string): string {
     font-weight: 700;
     font-size: 0.9rem;
     letter-spacing: 0.03em;
+  }
+  .news-card__link--none {
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--color-base-light);
+    font-style: italic;
   }
 
   @media (max-width: 900px) {
