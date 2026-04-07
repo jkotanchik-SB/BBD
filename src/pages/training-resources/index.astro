@@ -1,0 +1,346 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+
+const releaseNotes2026 = [
+  { label: "March 17, 2026 - v3.0.0", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%203.0.0_Release%20Notes.pdf" },
+  { label: "March 4, 2026 - v2.3.8", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%202.3.8_Release%20Notes.pdf" },
+  { label: "February 17, 2026 - v2.3.7", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE%202.3.7_Release%20Notes.pdf" },
+  { label: "February 4, 2026 - v2.3.6", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE%202.3.6_Release%20Notes.pdf" },
+  { label: "January 21, 2026 - v2.3.5", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE%202.3.5_Release%20Notes_1.pdf" },
+  { label: "January 6, 2026 - v2.3.4", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE%202.3.4_Release%20Notes.pdf" },
+];
+
+const releaseNotes2025 = [
+  { label: "December 10, 2025 - v2.3.3", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-12/MADiE%202.3.3_Release%20Notes_v2.pdf" },
+  { label: "November 25, 2025 - v2.3.2", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-11/MADiE%202.3.2_Release%20Notes.pdf" },
+  { label: "October 1, 2025 - v2.3.1", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-10/MADiE%202.3.1_Release%20Notes.pdf" },
+];
+
+const userGroupSlides2026 = [
+  { label: "March MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE_March%202026%20User%20Group.pdf" },
+  { label: "February MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE_February%202026%20User%20Group.pdf" },
+  { label: "January MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE_January%202026%20User%20Group.pdf" },
+];
+
+const userGroupSlides2025 = [
+  { label: "December MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-12/MADiE_December%202025%20User%20Group.pdf" },
+  { label: "November MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-11/MADiE_November%202025%20User%20Group.pdf" },
+  { label: "September MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-09/MADiE_September%202025%20User%20Group_0.pdf" },
+  { label: "August MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_August%202025%20User%20Group.pdf" },
+];
+
+const helpfulLinks = [
+  { label: "MADiE Release Schedule", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/Publicly%20Accessible%20Release%20Schedule_20260317.pdf" },
+  { label: "MADiE Version Information", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%20Version%20Information_v2.24.pdf" },
+  { label: "MADiE Recognized FHIR Code Systems", href: "https://www.emeasuretool.cms.gov/sites/default/files/2024-09/MADiE%20Recognized%20FHIR%20Code%20Systems_v1.1_0.xlsx" },
+  { label: "MADiE Ticket Submission Guidance", href: "https://www.emeasuretool.cms.gov/sites/default/files/2024-10/MADiE_TicketSubmissionGuidance_v4.pdf" },
+];
+
+const resources = [
+  { label: "MADiE Access Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiEAccessGuide_v2.1.pdf" },
+  { label: "MADiE User Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%20User%20Guide_3.0.0.pdf" },
+  { label: "MADiE QI-Core Test Case User Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%20QI-Core%20Test%20Case%20User%20Guide_1.0.0.pdf" },
+  { label: "JSON Test Case Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-05/MADiETestCaseJSONGuide_v2.1.pdf" },
+  { label: "Known Issues", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE%20Known%20Issues_01062026.pdf" },
+  { label: "MADiE Enhancement Request Form for CMS Contractors", href: "https://www.emeasuretool.cms.gov/sites/default/files/2024-10/MADiE_EnhancementRequestForm_v1.0.pdf" },
+  { label: "MADiE CMS ID Deletion Request Form", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_CMSIDDeletion_RequestForm_v1.1.xlsx" },
+  { label: "MADiE Add or Remove Measure and Library Sharing Request Form", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-11/MADiE_AddRemove_MeasureLibrary_SharingRequestForm_v1.2.xlsx" },
+  { label: "MADiE Measure or Library Ownership Transfer Request Form", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_MeasureorLibraryOwnershipTransferRequestForm_v2.1.xlsx" },
+  { label: "MADiE Revert Measure Version Request Form", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_RevertMeasureVersion_RequestForm_v1.1.xlsx" },
+  { label: "MADiE Independent Testing Supplemental Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2024-09/MADiE%20Independent%20Testing%20Supplemental%20Guide_v2.0.pdf" },
+];
+
+const didYouKnow = [
+  { label: "Transfer of Ownership", href: "https://www.emeasuretool.cms.gov/training-resources/transfer-ownership" },
+  { label: "Viewing, Sharing, and Deleting Measures and Libraries", href: "https://www.emeasuretool.cms.gov/training-resources/viewing-sharing-and-deleting-measures-and-libraries" },
+  { label: "Log In and Measures (Video)", href: "https://www.youtube.com/watch?v=DZrEzEXRtHY&list=PLaV7m2-zFKpis3s9BzxwWH48DbGdfasIl&index=4" },
+  { label: "QI-Core Test Case Creation & Editing (Video)", href: "https://www.youtube.com/watch?v=29qox1tyUZE&list=PLaV7m2-zFKpis3s9BzxwWH48DbGdfasIl&index=3" },
+  { label: "QI-Core STU6 Test Case Validation (Video)", href: "https://www.youtube.com/watch?v=Z7Bw1rY-x-Y" },
+];
+
+const faqs = [
+  {
+    q: "How do I access the Measure Authoring Development Integrated Environment (MADiE)?",
+    a: `All MADiE users are required to have a valid HCQIS Access Roles and Profiles (HARP) ID. Once you have a valid HARP ID, you may log into your HARP account at <a href="https://harp.cms.gov">harp.cms.gov</a> and request the MADiE-User role. Detailed instructions for requesting the MADiE-User role are available in the MADiE Access Guide. After receiving an email confirming your MADiE-User role request has been approved, you will be able to use your HARP ID and password to log into MADiE at <a href="https://madie.cms.gov">madie.cms.gov</a>.`,
+  },
+  {
+    q: "Where can I learn more about measure authoring and test case development in MADiE?",
+    a: `The MADiE User Guide offers detailed information about the functionality available for the purpose of measure authoring and test case development in MADiE. Click on the MADiE User Guide link under <em>MADiE Resources</em> in the right pane on this page.`,
+  },
+  {
+    q: "Where can I learn more about writing JSON test cases in MADiE?",
+    a: `Please review the JSON Test Case Guide for guidance regarding exporting test cases from BONNIE FHIR, writing JSON test cases, entering JSON test cases into MADiE, defining expected results of test cases in MADiE, and more. Click on the JSON Test Case Guide under <em>MADiE Resources</em> in the right pane on this page.`,
+  },
+  {
+    q: "How do I share a measure I own and all test cases in MADiE with another MADiE user?",
+    a: `To share a measure and all test cases for the measure, the measure owner must complete the Measure Sharing Request Form and submit it via email to the Helpdesk at <a href="mailto:MADiE@cms.hhs.gov">MADiE@cms.hhs.gov</a>. <strong>This form must be submitted via email and NOT submitted using the Bonnie MAT MADiE Jira Issue tracker as it contains HARP IDs.</strong>`,
+  },
+];
+---
+<BaseLayout title="Training & Resources | MADiE">
+  <PageHero title="Training & Resources" />
+
+  <div class="tr-layout">
+    <div class="container tr-layout__inner">
+      <!-- Main content column -->
+      <main class="tr-main">
+
+        <!-- FAQs -->
+        <section class="tr-section" id="faq">
+          <h2 class="tr-section__heading">Frequently Asked Questions</h2>
+          <div class="faq-list">
+            {faqs.map((faq) => (
+              <details class="faq-item">
+                <summary class="faq-item__question">{faq.q}</summary>
+                <div class="faq-item__answer" set:html={faq.a} />
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <!-- User Guide -->
+        <section class="tr-section" id="user-guide">
+          <h2 class="tr-section__heading">User Guide</h2>
+          <p>The MADiE User Guide provides step-by-step instructions on the tool, including but not limited to:</p>
+          <ul class="tr-list">
+            <li>Creation and Maintenance of Measures and Libraries</li>
+            <li>Creation and Maintenance of Test Cases</li>
+            <li>Measure Versioning</li>
+            <li>Measure and Test Case Exports</li>
+          </ul>
+          <p>If additional assistance is required, please visit the <a href="/contact-us">Contact Us</a> page for information on the MADiE Support Desk.</p>
+        </section>
+
+        <!-- CQL -->
+        <section class="tr-section" id="cql">
+          <h2 class="tr-section__heading">Clinical Quality Language (CQL)</h2>
+          <p>
+            The Centers for Medicare &amp; Medicaid Services (CMS) has announced that electronic clinical quality measures (eCQMs) in CMS quality programs will be transitioned to use the Clinical Quality Language (CQL) standard (CQL Release 1, Standard for Trial Use (STU) 4) for logic expression. CQL is a Health Level Seven International standard and aims to unify the expression of logic for eCQMs and Clinical Decision Support (CDS). CQL provides the ability to better express logic defining measure populations to improve the accuracy and clarity of eCQMs.
+          </p>
+          <p>For additional information regarding CQL, please visit the eCQI resource center at <a href="https://ecqi.healthit.gov/">ecqi.healthit.gov</a>.</p>
+        </section>
+
+        <!-- MADiE User Group -->
+        <section class="tr-section" id="user-group">
+          <h2 class="tr-section__heading">MADiE User Group</h2>
+          <p>
+            <a href="https://zoom.us/meeting/register/QMqsAWSaQq6Ed8NC0tl2Ew#/registration">Register for MADiE User Group</a>
+          </p>
+          <h3 class="tr-section__subheading">2026</h3>
+          <ul class="tr-link-list">
+            {userGroupSlides2026.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+          <h3 class="tr-section__subheading">2025</h3>
+          <ul class="tr-link-list">
+            {userGroupSlides2025.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+          <p><a href="https://www.emeasuretool.cms.gov/archived-bonnie-mat-madie-user-group-slides">Archived Bonnie, MAT, MADiE User Group Slides</a></p>
+        </section>
+
+        <!-- Did You Know -->
+        <section class="tr-section" id="did-you-know">
+          <h2 class="tr-section__heading">Did You Know?</h2>
+          <ul class="tr-link-list">
+            {didYouKnow.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </section>
+
+      </main>
+
+      <!-- Sidebar -->
+      <aside class="tr-sidebar">
+
+        <div class="sidebar-card">
+          <h2 class="sidebar-card__heading">MADiE Helpful Links</h2>
+          <ul class="sidebar-card__list">
+            {helpfulLinks.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="sidebar-card">
+          <h2 class="sidebar-card__heading">MADiE Resources</h2>
+          <ul class="sidebar-card__list">
+            {resources.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="sidebar-card">
+          <h2 class="sidebar-card__heading">Release Notes</h2>
+          <h3 class="sidebar-card__year">2026</h3>
+          <ul class="sidebar-card__list">
+            {releaseNotes2026.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+          <h3 class="sidebar-card__year">2025</h3>
+          <ul class="sidebar-card__list">
+            {releaseNotes2025.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+          <p><a href="https://www.emeasuretool.cms.gov/archived-madie-release-notes">Archived MADiE Release Notes</a></p>
+        </div>
+
+        <div class="sidebar-card">
+          <h2 class="sidebar-card__heading">Contact Us</h2>
+          <p>MADiE access: <a href="mailto:MADiE@cms.hhs.gov">MADiE@cms.hhs.gov</a></p>
+          <p>Measure and/or test case development: <a href="https://oncprojectracking.healthit.gov/support/projects/MADIE/summary">Submit a JIRA ticket</a></p>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tr-layout {
+    padding: 3rem 0;
+    background: var(--color-white);
+  }
+  .tr-layout__inner {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 3rem;
+    align-items: start;
+  }
+  .tr-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-base-lighter);
+  }
+  .tr-section:last-child {
+    border-bottom: none;
+  }
+  .tr-section__heading {
+    font-size: 1.5rem;
+    color: var(--color-primary-darker);
+    margin-bottom: 1rem;
+  }
+  .tr-section__subheading {
+    font-size: 1.1rem;
+    color: var(--color-primary-dark);
+    margin: 1.25rem 0 0.5rem;
+  }
+  .tr-section p {
+    color: var(--color-base-dark);
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+    max-width: 72ch;
+  }
+  .tr-list {
+    padding-left: 1.5rem;
+    margin: 0.75rem 0;
+    color: var(--color-base-dark);
+    line-height: 1.8;
+  }
+  .tr-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+  }
+  .tr-link-list li {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--color-base-lightest);
+  }
+  .tr-link-list li:last-child {
+    border-bottom: none;
+  }
+
+  /* FAQ */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .faq-item {
+    border: 1px solid var(--color-base-lighter);
+    border-radius: 4px;
+  }
+  .faq-item__question {
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-item__question::after {
+    content: "+";
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+  details[open] .faq-item__question::after {
+    content: "−";
+  }
+  .faq-item__answer {
+    padding: 0 1.25rem 1rem;
+    color: var(--color-base-dark);
+    line-height: 1.7;
+  }
+
+  /* Sidebar */
+  .tr-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .sidebar-card {
+    background: var(--color-base-lightest);
+    border-left: 4px solid var(--color-primary);
+    padding: 1.25rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .sidebar-card__heading {
+    font-size: 1.1rem;
+    color: var(--color-primary-darker);
+    margin-bottom: 0.75rem;
+  }
+  .sidebar-card__year {
+    font-size: 0.9rem;
+    color: var(--color-base-dark);
+    font-weight: 700;
+    margin: 0.75rem 0 0.25rem;
+  }
+  .sidebar-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .sidebar-card__list li {
+    padding: 0.3rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--color-base-lighter);
+  }
+  .sidebar-card__list li:last-child {
+    border-bottom: none;
+  }
+  .sidebar-card p {
+    font-size: 0.9rem;
+    color: var(--color-base-dark);
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .tr-layout__inner {
+      grid-template-columns: 1fr;
+    }
+    .tr-sidebar {
+      order: -1;
+    }
+  }
+</style>
