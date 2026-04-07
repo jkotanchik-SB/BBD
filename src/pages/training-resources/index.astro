@@ -1,12 +1,29 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
-import { getReleaseNotes, getSortedYears, type ReleaseNote } from "../../lib/payload";
+import { getResources, groupByYear, resourceUrl } from "../../lib/cms";
 
-// Fetch release notes from CMS (grouped by year)
-const releaseNotesByYear = await getReleaseNotes();
-const releaseYears = getSortedYears(releaseNotesByYear);
+// Fetch all sections in parallel from the CMS server
+const [userGuides, releaseNotes, additionalResources, faqItems, videoTutorials] =
+  await Promise.all([
+    getResources("user-guides"),
+    getResources("release-notes"),
+    getResources("additional-resources"),
+    getResources("faqs"),
+    getResources("video-tutorials"),
+  ]);
 
+// Group release notes by year; sort numeric years descending, "Other" last
+const releaseNotesByYear = groupByYear(releaseNotes);
+const releaseYears = Object.keys(releaseNotesByYear).sort((a, b) => {
+  const na = Number(a), nb = Number(b);
+  if (!isNaN(na) && !isNaN(nb)) return nb - na;
+  if (!isNaN(na)) return -1;
+  if (!isNaN(nb)) return 1;
+  return 0;
+});
+
+// Hardcoded user group slides (no CMS section for these yet)
 const userGroupSlides2026 = [
   { label: "March MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE_March%202026%20User%20Group.pdf" },
   { label: "February MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE_February%202026%20User%20Group.pdf" },
@@ -19,54 +36,6 @@ const userGroupSlides2025 = [
   { label: "September MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-09/MADiE_September%202025%20User%20Group_0.pdf" },
   { label: "August MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_August%202025%20User%20Group.pdf" },
 ];
-
-const helpfulLinks = [
-  { label: "MADiE Release Schedule", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/Publicly%20Accessible%20Release%20Schedule_20260317.pdf" },
-  { label: "MADiE Version Information", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%20Version%20Information_v2.24.pdf" },
-  { label: "MADiE Recognized FHIR Code Systems", href: "https://www.emeasuretool.cms.gov/sites/default/files/2024-09/MADiE%20Recognized%20FHIR%20Code%20Systems_v1.1_0.xlsx" },
-  { label: "MADiE Ticket Submission Guidance", href: "https://www.emeasuretool.cms.gov/sites/default/files/2024-10/MADiE_TicketSubmissionGuidance_v4.pdf" },
-];
-
-const resources = [
-  { label: "MADiE Access Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiEAccessGuide_v2.1.pdf" },
-  { label: "MADiE User Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%20User%20Guide_3.0.0.pdf" },
-  { label: "MADiE QI-Core Test Case User Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%20QI-Core%20Test%20Case%20User%20Guide_1.0.0.pdf" },
-  { label: "JSON Test Case Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-05/MADiETestCaseJSONGuide_v2.1.pdf" },
-  { label: "Known Issues", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE%20Known%20Issues_01062026.pdf" },
-  { label: "MADiE Enhancement Request Form for CMS Contractors", href: "https://www.emeasuretool.cms.gov/sites/default/files/2024-10/MADiE_EnhancementRequestForm_v1.0.pdf" },
-  { label: "MADiE CMS ID Deletion Request Form", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_CMSIDDeletion_RequestForm_v1.1.xlsx" },
-  { label: "MADiE Add or Remove Measure and Library Sharing Request Form", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-11/MADiE_AddRemove_MeasureLibrary_SharingRequestForm_v1.2.xlsx" },
-  { label: "MADiE Measure or Library Ownership Transfer Request Form", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_MeasureorLibraryOwnershipTransferRequestForm_v2.1.xlsx" },
-  { label: "MADiE Revert Measure Version Request Form", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_RevertMeasureVersion_RequestForm_v1.1.xlsx" },
-  { label: "MADiE Independent Testing Supplemental Guide", href: "https://www.emeasuretool.cms.gov/sites/default/files/2024-09/MADiE%20Independent%20Testing%20Supplemental%20Guide_v2.0.pdf" },
-];
-
-const didYouKnow = [
-  { label: "Transfer of Ownership", href: "https://www.emeasuretool.cms.gov/training-resources/transfer-ownership" },
-  { label: "Viewing, Sharing, and Deleting Measures and Libraries", href: "https://www.emeasuretool.cms.gov/training-resources/viewing-sharing-and-deleting-measures-and-libraries" },
-  { label: "Log In and Measures (Video)", href: "https://www.youtube.com/watch?v=DZrEzEXRtHY&list=PLaV7m2-zFKpis3s9BzxwWH48DbGdfasIl&index=4" },
-  { label: "QI-Core Test Case Creation & Editing (Video)", href: "https://www.youtube.com/watch?v=29qox1tyUZE&list=PLaV7m2-zFKpis3s9BzxwWH48DbGdfasIl&index=3" },
-  { label: "QI-Core STU6 Test Case Validation (Video)", href: "https://www.youtube.com/watch?v=Z7Bw1rY-x-Y" },
-];
-
-const faqs = [
-  {
-    q: "How do I access the Measure Authoring Development Integrated Environment (MADiE)?",
-    a: `All MADiE users are required to have a valid HCQIS Access Roles and Profiles (HARP) ID. Once you have a valid HARP ID, you may log into your HARP account at <a href="https://harp.cms.gov">harp.cms.gov</a> and request the MADiE-User role. Detailed instructions for requesting the MADiE-User role are available in the MADiE Access Guide. After receiving an email confirming your MADiE-User role request has been approved, you will be able to use your HARP ID and password to log into MADiE at <a href="https://madie.cms.gov">madie.cms.gov</a>.`,
-  },
-  {
-    q: "Where can I learn more about measure authoring and test case development in MADiE?",
-    a: `The MADiE User Guide offers detailed information about the functionality available for the purpose of measure authoring and test case development in MADiE. Click on the MADiE User Guide link under <em>MADiE Resources</em> in the right pane on this page.`,
-  },
-  {
-    q: "Where can I learn more about writing JSON test cases in MADiE?",
-    a: `Please review the JSON Test Case Guide for guidance regarding exporting test cases from BONNIE FHIR, writing JSON test cases, entering JSON test cases into MADiE, defining expected results of test cases in MADiE, and more. Click on the JSON Test Case Guide under <em>MADiE Resources</em> in the right pane on this page.`,
-  },
-  {
-    q: "How do I share a measure I own and all test cases in MADiE with another MADiE user?",
-    a: `To share a measure and all test cases for the measure, the measure owner must complete the Measure Sharing Request Form and submit it via email to the Helpdesk at <a href="mailto:MADiE@cms.hhs.gov">MADiE@cms.hhs.gov</a>. <strong>This form must be submitted via email and NOT submitted using the Bonnie MAT MADiE Jira Issue tracker as it contains HARP IDs.</strong>`,
-  },
-];
 ---
 <BaseLayout title="Training & Resources | MADiE">
   <PageHero title="Training & Resources" />
@@ -76,14 +45,19 @@ const faqs = [
       <!-- Main content column -->
       <main class="tr-main">
 
-        <!-- FAQs -->
+        <!-- FAQs (from CMS `faqs` section) -->
         <section class="tr-section" id="faq">
           <h2 class="tr-section__heading">Frequently Asked Questions</h2>
           <div class="faq-list">
-            {faqs.map((faq) => (
+            {faqItems.map((faq) => (
               <details class="faq-item">
-                <summary class="faq-item__question">{faq.q}</summary>
-                <div class="faq-item__answer" set:html={faq.a} />
+                <summary class="faq-item__question">{faq.title}</summary>
+                <div class="faq-item__answer">
+                  {faq.description}
+                  {faq.url && faq.url !== '#' && (
+                    <p><a href={faq.url}>{faq.url}</a></p>
+                  )}
+                </div>
               </details>
             ))}
           </div>
@@ -132,12 +106,12 @@ const faqs = [
           <p><a href="https://www.emeasuretool.cms.gov/archived-bonnie-mat-madie-user-group-slides">Archived Bonnie, MAT, MADiE User Group Slides</a></p>
         </section>
 
-        <!-- Did You Know -->
+        <!-- Did You Know (from CMS `video-tutorials` section) -->
         <section class="tr-section" id="did-you-know">
           <h2 class="tr-section__heading">Did You Know?</h2>
           <ul class="tr-link-list">
-            {didYouKnow.map((item) => (
-              <li><a href={item.href}>{item.label}</a></li>
+            {videoTutorials.map((video) => (
+              <li><a href={resourceUrl(video)}>{video.title}</a></li>
             ))}
           </ul>
         </section>
@@ -147,32 +121,35 @@ const faqs = [
       <!-- Sidebar -->
       <aside class="tr-sidebar">
 
+        <!-- Helpful Links from CMS `additional-resources` section -->
         <div class="sidebar-card">
           <h2 class="sidebar-card__heading">MADiE Helpful Links</h2>
           <ul class="sidebar-card__list">
-            {helpfulLinks.map((item) => (
-              <li><a href={item.href}>{item.label}</a></li>
+            {additionalResources.map((r) => (
+              <li><a href={resourceUrl(r)}>{r.title}</a></li>
             ))}
           </ul>
         </div>
 
+        <!-- MADiE Resources from CMS `user-guides` section -->
         <div class="sidebar-card">
           <h2 class="sidebar-card__heading">MADiE Resources</h2>
           <ul class="sidebar-card__list">
-            {resources.map((item) => (
-              <li><a href={item.href}>{item.label}</a></li>
+            {userGuides.map((r) => (
+              <li><a href={resourceUrl(r)}>{r.title}</a></li>
             ))}
           </ul>
         </div>
 
+        <!-- Release Notes from CMS `release-notes` section -->
         <div class="sidebar-card">
           <h2 class="sidebar-card__heading">Release Notes</h2>
           {releaseYears.map((year) => (
             <>
               <h3 class="sidebar-card__year">{year}</h3>
               <ul class="sidebar-card__list">
-                {releaseNotesByYear[year].map((item) => (
-                  <li><a href={item.href}>{item.label}</a></li>
+                {releaseNotesByYear[year].map((r) => (
+                  <li><a href={resourceUrl(r)}>{r.title}</a></li>
                 ))}
               </ul>
             </>

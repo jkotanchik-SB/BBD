@@ -1,50 +1,43 @@
 ---
-/* Latest News & Alerts section */
-interface NewsItem {
-  title: string;
-  date: string;
-  excerpt: string;
-  href: string;
-}
+import { getResources, resourceUrl } from "../lib/cms";
 
-const newsItems: NewsItem[] = [
-  {
-    title: "MADiE User Group",
-    date: "Apr 18, 2025",
-    excerpt:
-      "The MADiE User Group is an open forum to discuss the status of the tools and gather feedback from the user community.",
-    href: "https://www.emeasuretool.cms.gov/news-alerts/madie-user-group-0",
-  },
-  {
-    title: "MADiE User Group",
-    date: "Apr 30, 2024",
-    excerpt:
-      "The MADiE User Group is an open forum to discuss the status of the tools and gather feedback from the user community.",
-    href: "https://www.emeasuretool.cms.gov/news-alerts/madie-user-group",
-  },
-  {
-    title: "MAT and Bonnie Migration – Action Needed",
-    date: "Mar 8, 2024",
-    excerpt:
-      "Important announcement from CMS: MAT and Bonnie decommissioning date finalized — June 28, 2024.",
-    href: "https://www.emeasuretool.cms.gov/news-alerts/mat-and-bonnie-migration-action-needed",
-  },
-];
+// Fetch the most recent 3 release notes from the CMS
+const allReleaseNotes = await getResources("release-notes");
+
+// Sort by releaseDate descending (fall back to sortOrder for items without a date)
+const sorted = allReleaseNotes.sort((a, b) => {
+  if (a.releaseDate && b.releaseDate) {
+    return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
+  }
+  return a.sortOrder - b.sortOrder;
+});
+
+const newsItems = sorted.slice(0, 3);
+
+function formatDate(iso?: string): string {
+  if (!iso) return "";
+  return new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+}
 ---
 <section class="news" aria-label="Latest News and Alerts">
   <div class="container">
     <div class="news__header">
       <h2 class="news__heading">Latest News &amp; Alerts</h2>
-      <a href="https://www.emeasuretool.cms.gov/news-alerts" class="news__view-all">VIEW ALL</a>
+      <a href="/news-alerts" class="news__view-all">VIEW ALL</a>
     </div>
 
     <div class="news__grid">
       {newsItems.map((item) => (
         <article class="news-card">
           <h3 class="news-card__title">{item.title}</h3>
-          <time class="news-card__date">{item.date}</time>
-          <p class="news-card__excerpt">{item.excerpt}</p>
-          <a href={item.href} class="news-card__link">READ MORE</a>
+          <time class="news-card__date">{formatDate(item.releaseDate)}</time>
+          <p class="news-card__excerpt">{item.description}</p>
+          <a href={resourceUrl(item)} class="news-card__link">READ MORE</a>
         </article>
       ))}
     </div>
