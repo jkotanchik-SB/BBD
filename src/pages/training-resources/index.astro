@@ -1,21 +1,11 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
+import { getReleaseNotes, getSortedYears, type ReleaseNote } from "../../lib/payload";
 
-const releaseNotes2026 = [
-  { label: "March 17, 2026 - v3.0.0", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%203.0.0_Release%20Notes.pdf" },
-  { label: "March 4, 2026 - v2.3.8", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%202.3.8_Release%20Notes.pdf" },
-  { label: "February 17, 2026 - v2.3.7", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE%202.3.7_Release%20Notes.pdf" },
-  { label: "February 4, 2026 - v2.3.6", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE%202.3.6_Release%20Notes.pdf" },
-  { label: "January 21, 2026 - v2.3.5", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE%202.3.5_Release%20Notes_1.pdf" },
-  { label: "January 6, 2026 - v2.3.4", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE%202.3.4_Release%20Notes.pdf" },
-];
-
-const releaseNotes2025 = [
-  { label: "December 10, 2025 - v2.3.3", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-12/MADiE%202.3.3_Release%20Notes_v2.pdf" },
-  { label: "November 25, 2025 - v2.3.2", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-11/MADiE%202.3.2_Release%20Notes.pdf" },
-  { label: "October 1, 2025 - v2.3.1", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-10/MADiE%202.3.1_Release%20Notes.pdf" },
-];
+// Fetch release notes from CMS (grouped by year)
+const releaseNotesByYear = await getReleaseNotes();
+const releaseYears = getSortedYears(releaseNotesByYear);
 
 const userGroupSlides2026 = [
   { label: "March MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE_March%202026%20User%20Group.pdf" },
@@ -177,18 +167,16 @@ const faqs = [
 
         <div class="sidebar-card">
           <h2 class="sidebar-card__heading">Release Notes</h2>
-          <h3 class="sidebar-card__year">2026</h3>
-          <ul class="sidebar-card__list">
-            {releaseNotes2026.map((item) => (
-              <li><a href={item.href}>{item.label}</a></li>
-            ))}
-          </ul>
-          <h3 class="sidebar-card__year">2025</h3>
-          <ul class="sidebar-card__list">
-            {releaseNotes2025.map((item) => (
-              <li><a href={item.href}>{item.label}</a></li>
-            ))}
-          </ul>
+          {releaseYears.map((year) => (
+            <>
+              <h3 class="sidebar-card__year">{year}</h3>
+              <ul class="sidebar-card__list">
+                {releaseNotesByYear[year].map((item) => (
+                  <li><a href={item.href}>{item.label}</a></li>
+                ))}
+              </ul>
+            </>
+          ))}
           <p><a href="https://www.emeasuretool.cms.gov/archived-madie-release-notes">Archived MADiE Release Notes</a></p>
         </div>
 

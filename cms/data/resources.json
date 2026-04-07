@@ -1,0 +1,308 @@
+{
+  "sections": [
+    {
+      "id": "user-guides",
+      "title": "User Guides",
+      "description": "Comprehensive documentation to help you get started with MADiE.",
+      "sortOrder": 0
+    },
+    {
+      "id": "video-tutorials",
+      "title": "Video Tutorials",
+      "description": "Watch step-by-step video tutorials to learn how to use MADiE effectively.",
+      "sortOrder": 1
+    },
+    {
+      "id": "faqs",
+      "title": "Frequently Asked Questions",
+      "description": "Find answers to common questions about MADiE.",
+      "sortOrder": 2
+    },
+    {
+      "id": "additional-resources",
+      "title": "Additional Resources",
+      "description": "Helpful links and supplementary materials.",
+      "sortOrder": 3
+    },
+    {
+      "id": "release-notes",
+      "title": "Release Notes",
+      "description": "MADiE release notes documenting new features, improvements, and fixes.",
+      "sortOrder": 4
+    }
+  ],
+  "resources": [
+    {
+      "id": "1",
+      "title": "MADiE User Guide",
+      "description": "Complete guide covering all features of the MADiE application including measure creation, editing, and testing.",
+      "section": "user-guides",
+      "type": "pdf",
+      "filename": "MADiE_UserGuide_v3.0.pdf",
+      "version": "3.0",
+      "dateUpdated": "March 2024",
+      "sortOrder": 0
+    },
+    {
+      "id": "2",
+      "title": "MADiE Access Guide",
+      "description": "Step-by-step instructions for obtaining access to the MADiE application.",
+      "section": "user-guides",
+      "type": "pdf",
+      "filename": "MADiEAccessGuide_1.0_508.pdf",
+      "version": "1.0",
+      "dateUpdated": "November 2022",
+      "sortOrder": 1
+    },
+    {
+      "id": "3",
+      "title": "MADiE QDM Quick Reference Guide",
+      "description": "Quick reference for authoring QDM-based measures in MADiE.",
+      "section": "user-guides",
+      "type": "pdf",
+      "filename": "MADiE_QDM_QuickReferenceGuide.pdf",
+      "version": "1.0",
+      "dateUpdated": "January 2024",
+      "sortOrder": 2
+    },
+    {
+      "id": "4",
+      "title": "MADiE FHIR Quick Reference Guide",
+      "description": "Quick reference for authoring FHIR-based measures in MADiE.",
+      "section": "user-guides",
+      "type": "pdf",
+      "filename": "MADiE_FHIR_QuickReferenceGuide.pdf",
+      "version": "1.0",
+      "dateUpdated": "January 2024",
+      "sortOrder": 3
+    },
+    {
+      "id": "5",
+      "title": "MADiE Overview",
+      "description": "Introduction to MADiE and its key features for measure development.",
+      "section": "video-tutorials",
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=madie-overview",
+      "sortOrder": 0
+    },
+    {
+      "id": "6",
+      "title": "Creating a New Measure",
+      "description": "Learn how to create and configure a new measure in MADiE.",
+      "section": "video-tutorials",
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=madie-new-measure",
+      "sortOrder": 1
+    },
+    {
+      "id": "7",
+      "title": "Working with Test Cases",
+      "description": "Tutorial on creating and running test cases for your measures.",
+      "section": "video-tutorials",
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=madie-test-cases",
+      "sortOrder": 2
+    },
+    {
+      "id": "8",
+      "title": "Exporting Measures",
+      "description": "How to export your measures in different formats.",
+      "section": "video-tutorials",
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=madie-export",
+      "sortOrder": 3
+    },
+    {
+      "id": "9",
+      "title": "CQL (Clinical Quality Language) Reference",
+      "description": "Official documentation for the Clinical Quality Language used in eCQM development.",
+      "section": "additional-resources",
+      "type": "link",
+      "url": "https://cql.hl7.org/",
+      "sortOrder": 0
+    },
+    {
+      "id": "10",
+      "title": "eCQI Resource Center",
+      "description": "Central hub for electronic clinical quality improvement resources and tools.",
+      "section": "additional-resources",
+      "type": "link",
+      "url": "https://ecqi.healthit.gov/",
+      "sortOrder": 1
+    },
+    {
+      "id": "11",
+      "title": "QDM User Guide",
+      "description": "Documentation for the Quality Data Model used in measure specifications.",
+      "section": "additional-resources",
+      "type": "link",
+      "url": "https://ecqi.healthit.gov/qdm",
+      "sortOrder": 2
+    },
+    {
+      "id": "12",
+      "title": "FHIR Quality Measure IG",
+      "description": "FHIR Implementation Guide for Quality Measures.",
+      "section": "additional-resources",
+      "type": "link",
+      "url": "https://hl7.org/fhir/us/cqfmeasures/",
+      "sortOrder": 3
+    },
+    {
+      "id": "13",
+      "title": "How do I request access to MADiE?",
+      "description": "To request access to MADiE, visit the HCQIS Access Roles and Profile (HARP) system and submit a request for the MADiE application.",
+      "section": "faqs",
+      "type": "link",
+      "url": "https://harp.cms.gov/",
+      "sortOrder": 0
+    },
+    {
+      "id": "14",
+      "title": "What measure types does MADiE support?",
+      "description": "MADiE supports QDM (Quality Data Model) and FHIR (Fast Healthcare Interoperability Resources) based quality measures.",
+      "section": "faqs",
+      "type": "link",
+      "url": "#",
+      "sortOrder": 1
+    },
+    {
+      "id": "15",
+      "title": "How do I export a measure from MADiE?",
+      "description": "You can export measures in HQMF (for QDM measures) or FHIR Measure Bundle formats from the measure details page.",
+      "section": "faqs",
+      "type": "link",
+      "url": "#",
+      "sortOrder": 2
+    },
+    {
+      "id": "16",
+      "title": "Who can I contact for technical support?",
+      "description": "For technical support, please email the MADiE support team at madie-support@cms.hhs.gov.",
+      "section": "faqs",
+      "type": "link",
+      "url": "mailto:madie-support@cms.hhs.gov",
+      "sortOrder": 3
+    },
+    {
+      "id": "rn-2026-1",
+      "title": "March 17, 2026 - v3.0.0",
+      "description": "MADiE v3.0.0 Release Notes",
+      "section": "release-notes",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%203.0.0_Release%20Notes.pdf",
+      "version": "3.0.0",
+      "releaseDate": "2026-03-17",
+      "year": 2026,
+      "sortOrder": 0
+    },
+    {
+      "id": "rn-2026-2",
+      "title": "March 4, 2026 - v2.3.8",
+      "description": "MADiE v2.3.8 Release Notes",
+      "section": "release-notes",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE%202.3.8_Release%20Notes.pdf",
+      "version": "2.3.8",
+      "releaseDate": "2026-03-04",
+      "year": 2026,
+      "sortOrder": 1
+    },
+    {
+      "id": "rn-2026-3",
+      "title": "February 17, 2026 - v2.3.7",
+      "description": "MADiE v2.3.7 Release Notes",
+      "section": "release-notes",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE%202.3.7_Release%20Notes.pdf",
+      "version": "2.3.7",
+      "releaseDate": "2026-02-17",
+      "year": 2026,
+      "sortOrder": 2
+    },
+    {
+      "id": "rn-2026-4",
+      "title": "February 4, 2026 - v2.3.6",
+      "description": "MADiE v2.3.6 Release Notes",
+      "section": "release-notes",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE%202.3.6_Release%20Notes.pdf",
+      "version": "2.3.6",
+      "releaseDate": "2026-02-04",
+      "year": 2026,
+      "sortOrder": 3
+    },
+    {
+      "id": "rn-2026-5",
+      "title": "January 21, 2026 - v2.3.5",
+      "description": "MADiE v2.3.5 Release Notes",
+      "section": "release-notes",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE%202.3.5_Release%20Notes_1.pdf",
+      "version": "2.3.5",
+      "releaseDate": "2026-01-21",
+      "year": 2026,
+      "sortOrder": 4
+    },
+    {
+      "id": "rn-2026-6",
+      "title": "January 6, 2026 - v2.3.4",
+      "description": "MADiE v2.3.4 Release Notes",
+      "section": "release-notes",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE%202.3.4_Release%20Notes.pdf",
+      "version": "2.3.4",
+      "releaseDate": "2026-01-06",
+      "year": 2026,
+      "sortOrder": 5
+    },
+    {
+      "id": "rn-2025-1",
+      "title": "December 10, 2025 - v2.3.3",
+      "description": "MADiE v2.3.3 Release Notes",
+      "section": "release-notes",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2025-12/MADiE%202.3.3_Release%20Notes_v2.pdf",
+      "version": "2.3.3",
+      "releaseDate": "2025-12-10",
+      "year": 2025,
+      "sortOrder": 6
+    },
+    {
+      "id": "rn-2025-2",
+      "title": "November 25, 2025 - v2.3.2",
+      "description": "MADiE v2.3.2 Release Notes",
+      "section": "release-notes",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2025-11/MADiE%202.3.2_Release%20Notes.pdf",
+      "version": "2.3.2",
+      "releaseDate": "2025-11-25",
+      "year": 2025,
+      "sortOrder": 7
+    },
+    {
+      "id": "rn-2025-3",
+      "title": "October 1, 2025 - v2.3.1",
+      "description": "MADiE v2.3.1 Release Notes",
+      "section": "release-notes",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2025-10/MADiE%202.3.1_Release%20Notes.pdf",
+      "version": "2.3.1",
+      "releaseDate": "2025-10-01",
+      "year": 2025,
+      "sortOrder": 8
+    },
+    {
+      "id": "1b54ec19-85ae-4e36-b108-8006dee8a1f3",
+      "title": "April 7, 2026 - v2.3.0",
+      "description": "",
+      "section": "release-notes",
+      "type": "pdf",
+      "filename": "MADiE_2.3.0_Release_Notes_1775573347812.pdf",
+      "url": "",
+      "version": "2.3.0",
+      "dateUpdated": "April 7, 2026",
+      "sortOrder": 9
+    }
+  ]
+}
