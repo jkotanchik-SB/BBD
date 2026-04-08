@@ -4,13 +4,14 @@ import PageHero from "../../components/PageHero.astro";
 import { getResources, groupByYear, resourceUrl } from "../../lib/cms";
 
 // Fetch all sections in parallel from the CMS server
-const [userGuides, releaseNotes, additionalResources, faqItems, videoTutorials] =
+const [userGuides, releaseNotes, additionalResources, faqItems, videoTutorials, userGroupSlides] =
   await Promise.all([
     getResources("user-guides"),
     getResources("release-notes"),
     getResources("additional-resources"),
     getResources("faqs"),
     getResources("video-tutorials"),
+    getResources("user-group-slides"),
   ]);
 
 // Group release notes by year; sort numeric years descending, "Other" last
@@ -23,19 +24,15 @@ const releaseYears = Object.keys(releaseNotesByYear).sort((a, b) => {
   return 0;
 });
 
-// Hardcoded user group slides (no CMS section for these yet)
-const userGroupSlides2026 = [
-  { label: "March MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE_March%202026%20User%20Group.pdf" },
-  { label: "February MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE_February%202026%20User%20Group.pdf" },
-  { label: "January MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE_January%202026%20User%20Group.pdf" },
-];
-
-const userGroupSlides2025 = [
-  { label: "December MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-12/MADiE_December%202025%20User%20Group.pdf" },
-  { label: "November MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-11/MADiE_November%202025%20User%20Group.pdf" },
-  { label: "September MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-09/MADiE_September%202025%20User%20Group_0.pdf" },
-  { label: "August MADiE User Group Slides", href: "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_August%202025%20User%20Group.pdf" },
-];
+// Group user group slides by year, sorted descending
+const slidesByYear = groupByYear(userGroupSlides);
+const slideYears = Object.keys(slidesByYear).sort((a, b) => {
+  const na = Number(a), nb = Number(b);
+  if (!isNaN(na) && !isNaN(nb)) return nb - na;
+  if (!isNaN(na)) return -1;
+  if (!isNaN(nb)) return 1;
+  return 0;
+});
 ---
 <BaseLayout title="Training & Resources | MADiE">
   <PageHero title="Training & Resources" />
@@ -85,24 +82,22 @@ const userGroupSlides2025 = [
           <p>For additional information regarding CQL, please visit the eCQI resource center at <a href="https://ecqi.healthit.gov/">ecqi.healthit.gov</a>.</p>
         </section>
 
-        <!-- MADiE User Group -->
+        <!-- MADiE User Group (from CMS `user-group-slides` section) -->
         <section class="tr-section" id="user-group">
           <h2 class="tr-section__heading">MADiE User Group</h2>
           <p>
             <a href="https://zoom.us/meeting/register/QMqsAWSaQq6Ed8NC0tl2Ew#/registration">Register for MADiE User Group</a>
           </p>
-          <h3 class="tr-section__subheading">2026</h3>
-          <ul class="tr-link-list">
-            {userGroupSlides2026.map((item) => (
-              <li><a href={item.href}>{item.label}</a></li>
-            ))}
-          </ul>
-          <h3 class="tr-section__subheading">2025</h3>
-          <ul class="tr-link-list">
-            {userGroupSlides2025.map((item) => (
-              <li><a href={item.href}>{item.label}</a></li>
-            ))}
-          </ul>
+          {slideYears.map((year) => (
+            <>
+              <h3 class="tr-section__subheading">{year}</h3>
+              <ul class="tr-link-list">
+                {slidesByYear[year].map((slide) => (
+                  <li><a href={resourceUrl(slide)} target="_blank" rel="noopener noreferrer">{slide.title}</a></li>
+                ))}
+              </ul>
+            </>
+          ))}
           <p><a href="https://www.emeasuretool.cms.gov/archived-bonnie-mat-madie-user-group-slides">Archived Bonnie, MAT, MADiE User Group Slides</a></p>
         </section>
 

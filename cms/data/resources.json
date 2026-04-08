@@ -29,6 +29,12 @@
       "title": "Release Notes",
       "description": "MADiE release notes documenting new features, improvements, and fixes.",
       "sortOrder": 4
+    },
+    {
+      "id": "user-group-slides",
+      "title": "User Group Slides",
+      "description": "Slide decks from MADiE User Group meetings, organized by year.",
+      "sortOrder": 5
     }
   ],
   "resources": [
@@ -303,6 +309,83 @@
       "version": "2.3.0",
       "dateUpdated": "April 7, 2026",
       "sortOrder": 9
+    },
+    {
+      "id": "ugs-2026-03",
+      "title": "March MADiE User Group Slides",
+      "description": "MADiE User Group presentation slides for March 2026.",
+      "section": "user-group-slides",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2026-03/MADiE_March%202026%20User%20Group.pdf",
+      "year": 2026,
+      "releaseDate": "2026-03-01",
+      "sortOrder": 0
+    },
+    {
+      "id": "ugs-2026-02",
+      "title": "February MADiE User Group Slides",
+      "description": "MADiE User Group presentation slides for February 2026.",
+      "section": "user-group-slides",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2026-02/MADiE_February%202026%20User%20Group.pdf",
+      "year": 2026,
+      "releaseDate": "2026-02-01",
+      "sortOrder": 1
+    },
+    {
+      "id": "ugs-2026-01",
+      "title": "January MADiE User Group Slides",
+      "description": "MADiE User Group presentation slides for January 2026.",
+      "section": "user-group-slides",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2026-01/MADiE_January%202026%20User%20Group.pdf",
+      "year": 2026,
+      "releaseDate": "2026-01-01",
+      "sortOrder": 2
+    },
+    {
+      "id": "ugs-2025-12",
+      "title": "December MADiE User Group Slides",
+      "description": "MADiE User Group presentation slides for December 2025.",
+      "section": "user-group-slides",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2025-12/MADiE_December%202025%20User%20Group.pdf",
+      "year": 2025,
+      "releaseDate": "2025-12-01",
+      "sortOrder": 3
+    },
+    {
+      "id": "ugs-2025-11",
+      "title": "November MADiE User Group Slides",
+      "description": "MADiE User Group presentation slides for November 2025.",
+      "section": "user-group-slides",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2025-11/MADiE_November%202025%20User%20Group.pdf",
+      "year": 2025,
+      "releaseDate": "2025-11-01",
+      "sortOrder": 4
+    },
+    {
+      "id": "ugs-2025-09",
+      "title": "September MADiE User Group Slides",
+      "description": "MADiE User Group presentation slides for September 2025.",
+      "section": "user-group-slides",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2025-09/MADiE_September%202025%20User%20Group_0.pdf",
+      "year": 2025,
+      "releaseDate": "2025-09-01",
+      "sortOrder": 5
+    },
+    {
+      "id": "ugs-2025-08",
+      "title": "August MADiE User Group Slides",
+      "description": "MADiE User Group presentation slides for August 2025.",
+      "section": "user-group-slides",
+      "type": "pdf",
+      "url": "https://www.emeasuretool.cms.gov/sites/default/files/2025-08/MADiE_August%202025%20User%20Group.pdf",
+      "year": 2025,
+      "releaseDate": "2025-08-01",
+      "sortOrder": 6
     }
   ]
 }
