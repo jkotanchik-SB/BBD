@@ -2,5 +2,13 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+
+# Environment variables
 .env
 .env.local
+.env.*.local
+
+# Payload CMS uploads (media files)
+public/uploads/*
+!public/uploads/.gitkeep
+

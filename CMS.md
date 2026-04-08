@@ -1,10 +1,13 @@
 # MADiE CMS Setup
 
-This project uses a lightweight JSON-based CMS for managing Training & Resources content.
+This project offers two CMS options for managing Training & Resources content.
 
-## Quick Start
+## Option 1: Lightweight JSON-based CMS (Default)
 
-### Start the CMS Server
+A simple Express-based CMS with JSON file storage.
+
+### Quick Start
+
 ```bash
 npm run cms
 ```
@@ -13,7 +16,41 @@ The CMS will be available at:
 - **Admin UI**: http://localhost:3001/admin
 - **API**: http://localhost:3001/api
 
-### Start Astro Dev Server (in another terminal)
+### Features
+- **Sortable columns** - Click on Title, Section, Type, or Date Added column headers to sort
+- **Date Added tracking** - Automatically tracks when resources are added
+- Upload PDF documents and images
+- Add, edit, and delete resources
+- Organize resources into sections
+
+---
+
+## Option 2: Payload CMS (Full-featured)
+
+A full-featured headless CMS with Next.js admin panel, located in `/payload-cms`.
+
+### Setup
+
+```bash
+cd payload-cms
+npm install
+npm run dev
+```
+
+Payload CMS will be available at:
+- **Admin UI**: http://localhost:3001/admin
+- **API**: http://localhost:3001/api
+
+### Features
+- Professional admin UI with authentication
+- SQLite database storage
+- File upload management
+- Relationship fields between collections
+- Full REST API
+
+---
+
+## Start Astro Dev Server (in another terminal)
 ```bash
 npm run dev
 ```

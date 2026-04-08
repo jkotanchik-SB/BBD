@@ -140,6 +140,7 @@ app.post('/api/resources', (req, res) => {
     url: req.body.url,
     version: req.body.version,
     dateUpdated: req.body.dateUpdated,
+    dateAdded: req.body.dateAdded || new Date().toISOString(),
     sortOrder: req.body.sortOrder || data.resources.filter((r: any) => r.section === req.body.section).length,
   };
   data.resources.push(newResource);
@@ -237,6 +238,11 @@ const adminHTML = `<!DOCTYPE html>
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e0e0e0; }
     th { background: #f0f0f0; font-weight: 600; }
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable:hover { background: #e0e0e0; }
+    th.sortable::after { content: ' ⇅'; opacity: 0.4; }
+    th.sortable.asc::after { content: ' ↑'; opacity: 1; }
+    th.sortable.desc::after { content: ' ↓'; opacity: 1; }
     .btn { display: inline-block; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: 500; cursor: pointer; border: none; font-size: 0.875rem; }
     .btn-primary { background: #005ea2; color: white; }
     .btn-danger { background: #d83933; color: white; }
@@ -282,9 +288,15 @@ const adminHTML = `<!DOCTYPE html>
     <div class="card">
       <h2>📄 Resources</h2>
       <button class="btn btn-primary" onclick="openResourceModal()" style="margin-bottom: 1rem;">+ Add Resource</button>
-      <table>
+      <table id="resourcesTableContainer">
         <thead>
-          <tr><th>Title</th><th>Section</th><th>Type</th><th>Actions</th></tr>
+          <tr>
+            <th class="sortable" data-sort="title">Title</th>
+            <th class="sortable" data-sort="section">Section</th>
+            <th class="sortable" data-sort="type">Type</th>
+            <th class="sortable" data-sort="dateAdded">Date Added</th>
+            <th>Actions</th>
+          </tr>
         </thead>
         <tbody id="resourcesTable"></tbody>
       </table>
@@ -357,6 +369,8 @@ const adminHTML = `<!DOCTYPE html>
 
   <script>
     const API = '';
+    let allResources = [];
+    let currentSort = { column: 'title', direction: 'asc' };
 
     function showMessage(text, type) {
       const msg = document.getElementById('message');
@@ -365,14 +379,70 @@ const adminHTML = `<!DOCTYPE html>
       setTimeout(() => msg.className = '', 3000);
     }
 
+    function formatDate(dateStr) {
+      if (!dateStr) return '-';
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) return dateStr;
+      return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function sortResources(resources, column, direction) {
+      return [...resources].sort((a, b) => {
+        let valA = a[column] || '';
+        let valB = b[column] || '';
+        
+        // Handle date sorting
+        if (column === 'dateAdded') {
+          valA = new Date(valA || 0).getTime();
+          valB = new Date(valB || 0).getTime();
+        } else {
+          valA = valA.toString().toLowerCase();
+          valB = valB.toString().toLowerCase();
+        }
+        
+        if (valA < valB) return direction === 'asc' ? -1 : 1;
+        if (valA > valB) return direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    function updateSortIndicators() {
+      document.querySelectorAll('th.sortable').forEach(th => {
+        th.classList.remove('asc', 'desc');
+        if (th.dataset.sort === currentSort.column) {
+          th.classList.add(currentSort.direction);
+        }
+      });
+    }
+
+    function renderResources() {
+      const sorted = sortResources(allResources, currentSort.column, currentSort.direction);
+      const tbody = document.getElementById('resourcesTable');
+      tbody.innerHTML = sorted.map(r =>
+        '<tr><td>' + r.title + '</td><td>' + r.section + '</td><td><span class="badge badge-' + r.type + '">' + r.type.toUpperCase() + '</span></td><td>' + formatDate(r.dateAdded) + '</td><td class="actions"><button class="btn btn-primary btn-sm" onclick="editResource(\\'' + r.id + '\\')">Edit</button> <button class="btn btn-danger btn-sm" onclick="deleteResource(\\'' + r.id + '\\')">Delete</button></td></tr>'
+      ).join('');
+      updateSortIndicators();
+    }
+
     async function loadResources() {
       const res = await fetch(API + '/api/resources');
-      const resources = await res.json();
-      const tbody = document.getElementById('resourcesTable');
-      tbody.innerHTML = resources.map(r =>
-        '<tr><td>' + r.title + '</td><td>' + r.section + '</td><td><span class="badge badge-' + r.type + '">' + r.type.toUpperCase() + '</span></td><td class="actions"><button class="btn btn-primary btn-sm" onclick="editResource(\\'' + r.id + '\\')">Edit</button> <button class="btn btn-danger btn-sm" onclick="deleteResource(\\'' + r.id + '\\')">Delete</button></td></tr>'
-      ).join('');
+      allResources = await res.json();
+      renderResources();
     }
+
+    // Add click handlers for sortable columns
+    document.querySelectorAll('th.sortable').forEach(th => {
+      th.addEventListener('click', () => {
+        const column = th.dataset.sort;
+        if (currentSort.column === column) {
+          currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+          currentSort.column = column;
+          currentSort.direction = 'asc';
+        }
+        renderResources();
+      });
+    });
 
     async function loadFiles() {
       const res = await fetch(API + '/api/files');

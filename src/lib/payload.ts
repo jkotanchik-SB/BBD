@@ -1,20 +1,21 @@
 /**
- * CMS Client for fetching resources
- * Connects to the lightweight CMS server or uses fallback data
+ * Payload CMS Client for fetching resources
+ * Connects to the Payload CMS server or uses fallback data
  */
 
 export interface Resource {
   id: string;
   title: string;
   description: string;
-  section: 'user-guides' | 'video-tutorials' | 'faqs' | 'additional-resources' | 'release-notes';
+  section: string | { id: string; slug: string; title: string };
   type: 'pdf' | 'video' | 'link';
-  filename?: string;
+  file?: { id: string; filename: string; url: string } | null;
   url?: string;
   version?: string;
   dateUpdated?: string;
-  releaseDate?: string;  // For release notes: ISO date string (e.g., "2026-03-17")
-  year?: number;         // For grouping release notes by year
+  dateAdded?: string;
+  releaseDate?: string;
+  year?: number;
   sortOrder: number;
 }
 
@@ -29,6 +30,7 @@ export interface ReleaseNote {
 
 export interface ResourceSection {
   id: string;
+  slug: string;
   title: string;
   description?: string;
   sortOrder: number;
@@ -37,15 +39,23 @@ export interface ResourceSection {
 const CMS_API_URL = import.meta.env.CMS_API_URL || 'http://localhost:3001';
 
 /**
- * Fetch all resource sections from CMS
+ * Fetch all resource sections from Payload CMS
  */
 export async function getResourceSections(): Promise<ResourceSection[]> {
   try {
-    const response = await fetch(`${CMS_API_URL}/api/sections`);
+    const response = await fetch(`${CMS_API_URL}/api/sections?sort=sortOrder&limit=100`);
     if (!response.ok) {
       throw new Error(`Failed to fetch sections: ${response.status}`);
     }
-    return await response.json();
+    const data = await response.json();
+    // Payload returns { docs: [], totalDocs, ... }
+    return (data.docs || data).map((s: any) => ({
+      id: s.id,
+      slug: s.slug,
+      title: s.title,
+      description: s.description,
+      sortOrder: s.sortOrder,
+    }));
   } catch (error) {
     console.error('Error fetching resource sections:', error);
     return getFallbackSections();
@@ -53,19 +63,31 @@ export async function getResourceSections(): Promise<ResourceSection[]> {
 }
 
 /**
- * Fetch all resources from CMS
+ * Fetch all resources from Payload CMS
  */
 export async function getResources(): Promise<Resource[]> {
   try {
-    const response = await fetch(`${CMS_API_URL}/api/resources`);
+    const response = await fetch(`${CMS_API_URL}/api/resources?sort=sortOrder&limit=100&depth=1`);
     if (!response.ok) {
       throw new Error(`Failed to fetch resources: ${response.status}`);
     }
-    return await response.json();
+    const data = await response.json();
+    // Payload returns { docs: [], totalDocs, ... }
+    return data.docs || data;
   } catch (error) {
     console.error('Error fetching resources:', error);
     return getFallbackResources();
   }
+}
+
+/**
+ * Get the section slug from a resource (handles both populated and non-populated relations)
+ */
+export function getSectionSlug(resource: Resource): string {
+  if (typeof resource.section === 'object' && resource.section?.slug) {
+    return resource.section.slug;
+  }
+  return String(resource.section);
 }
 
 /**
@@ -76,9 +98,9 @@ export function getResourceUrl(resource: Resource): string {
   if (resource.url) {
     return resource.url;
   }
-  // For uploaded PDFs, construct the path
-  if (resource.type === 'pdf' && resource.filename) {
-    return `/uploads/${resource.filename}`;
+  // For uploaded PDFs via Payload, use the file relation
+  if (resource.type === 'pdf' && resource.file) {
+    return resource.file.url || `/uploads/${resource.file.filename}`;
   }
   return '#';
 }
@@ -96,7 +118,7 @@ export function isExternalResource(resource: Resource): boolean {
 export async function getReleaseNotes(): Promise<{ [year: number]: ReleaseNote[] }> {
   try {
     const resources = await getResources();
-    const releaseNoteResources = resources.filter(r => r.section === 'release-notes');
+    const releaseNoteResources = resources.filter(r => getSectionSlug(r) === 'release-notes');
 
     // Transform resources into ReleaseNote format and group by year
     const releaseNotes: ReleaseNote[] = releaseNoteResources.map(r => ({
@@ -151,10 +173,10 @@ function getFallbackReleaseNotes(): { [year: number]: ReleaseNote[] } {
 // Fallback data when CMS is unavailable
 function getFallbackSections(): ResourceSection[] {
   return [
-    { id: 'user-guides', title: 'User Guides', description: 'Comprehensive documentation to help you get started with MADiE.', sortOrder: 0 },
-    { id: 'video-tutorials', title: 'Video Tutorials', description: 'Watch step-by-step video tutorials to learn how to use MADiE effectively.', sortOrder: 1 },
-    { id: 'faqs', title: 'Frequently Asked Questions', description: 'Find answers to common questions about MADiE.', sortOrder: 2 },
-    { id: 'additional-resources', title: 'Additional Resources', description: 'Helpful links and supplementary materials.', sortOrder: 3 },
+    { id: 'user-guides', slug: 'user-guides', title: 'User Guides', description: 'Comprehensive documentation to help you get started with MADiE.', sortOrder: 0 },
+    { id: 'video-tutorials', slug: 'video-tutorials', title: 'Video Tutorials', description: 'Watch step-by-step video tutorials to learn how to use MADiE effectively.', sortOrder: 1 },
+    { id: 'faqs', slug: 'faqs', title: 'Frequently Asked Questions', description: 'Find answers to common questions about MADiE.', sortOrder: 2 },
+    { id: 'additional-resources', slug: 'additional-resources', title: 'Additional Resources', description: 'Helpful links and supplementary materials.', sortOrder: 3 },
   ];
 }
 
@@ -166,7 +188,7 @@ function getFallbackResources(): Resource[] {
       description: 'Complete guide covering all features of the MADiE application including measure creation, editing, and testing.',
       section: 'user-guides',
       type: 'pdf',
-      filename: 'MADiE_UserGuide_v3.0.pdf',
+      file: { id: 'file-1', filename: 'MADiE_UserGuide_v3.0.pdf', url: '/uploads/MADiE_UserGuide_v3.0.pdf' },
       version: '3.0',
       dateUpdated: 'March 2024',
       sortOrder: 0,
@@ -177,7 +199,7 @@ function getFallbackResources(): Resource[] {
       description: 'Step-by-step instructions for obtaining access to the MADiE application.',
       section: 'user-guides',
       type: 'pdf',
-      filename: 'MADiEAccessGuide_1.0_508.pdf',
+      file: { id: 'file-2', filename: 'MADiEAccessGuide_1.0_508.pdf', url: '/uploads/MADiEAccessGuide_1.0_508.pdf' },
       version: '1.0',
       dateUpdated: 'November 2022',
       sortOrder: 1,
@@ -188,7 +210,7 @@ function getFallbackResources(): Resource[] {
       description: 'Quick reference for authoring QDM-based measures in MADiE.',
       section: 'user-guides',
       type: 'pdf',
-      filename: 'MADiE_QDM_QuickReferenceGuide.pdf',
+      file: { id: 'file-3', filename: 'MADiE_QDM_QuickReferenceGuide.pdf', url: '/uploads/MADiE_QDM_QuickReferenceGuide.pdf' },
       version: '1.0',
       dateUpdated: 'January 2024',
       sortOrder: 2,
@@ -199,7 +221,7 @@ function getFallbackResources(): Resource[] {
       description: 'Quick reference for authoring FHIR-based measures in MADiE.',
       section: 'user-guides',
       type: 'pdf',
-      filename: 'MADiE_FHIR_QuickReferenceGuide.pdf',
+      file: { id: 'file-4', filename: 'MADiE_FHIR_QuickReferenceGuide.pdf', url: '/uploads/MADiE_FHIR_QuickReferenceGuide.pdf' },
       version: '1.0',
       dateUpdated: 'January 2024',
       sortOrder: 3,
@@ -314,7 +336,4 @@ function getFallbackResources(): Resource[] {
     },
   ];
 }
-
-
-
 
