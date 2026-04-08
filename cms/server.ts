@@ -319,11 +319,13 @@ const adminHTML = `<!DOCTYPE html>
         </div>
         <div class="form-group">
           <label>Section *</label>
-          <select id="resourceSection" required>
+          <select id="resourceSection" required onchange="toggleFields()">
             <option value="user-guides">User Guides</option>
             <option value="video-tutorials">Video Tutorials</option>
+            <option value="faqs">FAQs</option>
             <option value="release-notes">Release Notes</option>
             <option value="additional-resources">Additional Resources</option>
+            <option value="user-group-slides">User Group Slides</option>
           </select>
         </div>
         <div class="form-group">
@@ -349,6 +351,14 @@ const adminHTML = `<!DOCTYPE html>
         <div class="form-group">
           <label>Date Updated</label>
           <input type="text" id="resourceDateUpdated" placeholder="e.g., March 2024">
+        </div>
+        <div class="form-group" id="releaseDateGroup" style="display:none;">
+          <label>Release Date</label>
+          <input type="date" id="resourceReleaseDate">
+        </div>
+        <div class="form-group" id="yearGroup" style="display:none;">
+          <label>Year</label>
+          <input type="number" id="resourceYear" placeholder="e.g., 2026" min="2020" max="2099">
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
       </form>
@@ -401,9 +411,13 @@ const adminHTML = `<!DOCTYPE html>
 
     function toggleFields() {
       const type = document.getElementById('resourceType').value;
+      const section = document.getElementById('resourceSection').value;
+      const hasDate = section === 'release-notes' || section === 'user-group-slides';
       document.getElementById('filenameGroup').style.display = type === 'pdf' ? 'block' : 'none';
       document.getElementById('urlGroup').style.display = type !== 'pdf' ? 'block' : 'none';
       document.getElementById('versionGroup').style.display = type === 'pdf' ? 'block' : 'none';
+      document.getElementById('releaseDateGroup').style.display = hasDate ? 'block' : 'none';
+      document.getElementById('yearGroup').style.display = hasDate ? 'block' : 'none';
     }
 
     function openResourceModal(resource) {
@@ -417,6 +431,8 @@ const adminHTML = `<!DOCTYPE html>
       document.getElementById('resourceUrl').value = resource ? (resource.url || '') : '';
       document.getElementById('resourceVersion').value = resource ? (resource.version || '') : '';
       document.getElementById('resourceDateUpdated').value = resource ? (resource.dateUpdated || '') : '';
+      document.getElementById('resourceReleaseDate').value = resource ? (resource.releaseDate || '') : '';
+      document.getElementById('resourceYear').value = resource ? (resource.year || '') : '';
       toggleFields();
       document.getElementById('resourceModal').classList.add('active');
     }
@@ -457,6 +473,8 @@ const adminHTML = `<!DOCTYPE html>
         url: document.getElementById('resourceUrl').value,
         version: document.getElementById('resourceVersion').value,
         dateUpdated: document.getElementById('resourceDateUpdated').value,
+        releaseDate: document.getElementById('resourceReleaseDate').value || undefined,
+        year: document.getElementById('resourceYear').value ? parseInt(document.getElementById('resourceYear').value, 10) : undefined,
       };
 
       const res = await fetch(API + '/api/resources' + (id ? '/' + id : ''), {
