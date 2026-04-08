@@ -2,10 +2,17 @@
 import { getResources, resourceUrl } from "../lib/cms";
 
 // Fetch the most recent 3 release notes from the CMS
-const allReleaseNotes = await getResources("release-notes");
+let allReleaseNotes: Awaited<ReturnType<typeof getResources>> = [];
+try {
+  const result = await getResources("release-notes");
+  // Ensure we have an array (handle API errors gracefully)
+  allReleaseNotes = Array.isArray(result) ? result : [];
+} catch (error) {
+  console.error("Failed to fetch release notes:", error);
+}
 
 // Sort by releaseDate descending (fall back to sortOrder for items without a date)
-const sorted = allReleaseNotes.sort((a, b) => {
+const sorted = [...allReleaseNotes].sort((a, b) => {
   if (a.releaseDate && b.releaseDate) {
     return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
   }

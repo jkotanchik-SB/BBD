@@ -39,12 +39,30 @@ async function cmsGet<T>(path: string): Promise<T> {
 }
 
 export async function getSections(): Promise<CmsSection[]> {
-  return cmsGet<CmsSection[]>("/api/sections");
+  try {
+    const result = await cmsGet<CmsSection[] | { docs: CmsSection[] }>("/api/sections");
+    // Handle both array response and Payload-style {docs: [...]} response
+    if (Array.isArray(result)) return result;
+    if (result && Array.isArray(result.docs)) return result.docs;
+    return [];
+  } catch (error) {
+    console.error("Failed to fetch sections:", error);
+    return [];
+  }
 }
 
 export async function getResources(section?: string): Promise<CmsResource[]> {
-  const query = section ? `?section=${encodeURIComponent(section)}` : "";
-  return cmsGet<CmsResource[]>(`/api/resources${query}`);
+  try {
+    const query = section ? `?section=${encodeURIComponent(section)}` : "";
+    const result = await cmsGet<CmsResource[] | { docs: CmsResource[] }>(`/api/resources${query}`);
+    // Handle both array response and Payload-style {docs: [...]} response
+    if (Array.isArray(result)) return result;
+    if (result && Array.isArray(result.docs)) return result.docs;
+    return [];
+  } catch (error) {
+    console.error("Failed to fetch resources:", error);
+    return [];
+  }
 }
 
 /**
@@ -54,6 +72,11 @@ export async function getResources(section?: string): Promise<CmsResource[]> {
 export function groupByYear(
   resources: CmsResource[]
 ): Record<string | number, CmsResource[]> {
+  // Defensive check: ensure resources is an array
+  if (!Array.isArray(resources)) {
+    console.error("groupByYear received non-array:", resources);
+    return {};
+  }
   return resources.reduce(
     (acc, r) => {
       const key = r.year ?? "Other";
