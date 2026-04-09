@@ -50,11 +50,12 @@ export async function getResources(section?: string): Promise<CmsResource[]> {
 /**
  * Returns resources grouped by year (for release notes).
  * Resources without a `year` field are grouped under "Other".
+ * Within each year, items are sorted by releaseDate descending.
  */
 export function groupByYear(
   resources: CmsResource[]
 ): Record<string | number, CmsResource[]> {
-  return resources.reduce(
+  const grouped = resources.reduce(
     (acc, r) => {
       const key = r.year ?? "Other";
       if (!acc[key]) acc[key] = [];
@@ -63,6 +64,19 @@ export function groupByYear(
     },
     {} as Record<string | number, CmsResource[]>
   );
+
+  for (const key of Object.keys(grouped)) {
+    grouped[key].sort((a, b) => {
+      if (a.releaseDate && b.releaseDate) {
+        return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
+      }
+      if (a.releaseDate) return -1;
+      if (b.releaseDate) return 1;
+      return a.sortOrder - b.sortOrder;
+    });
+  }
+
+  return grouped;
 }
 
 /**
@@ -71,6 +85,6 @@ export function groupByYear(
  */
 export function resourceUrl(r: CmsResource): string {
   if (r.url) return r.url;
-  if (r.filename) return `/uploads/${r.filename}`;
+  if (r.filename) return `${CMS_URL}/uploads/${r.filename}`;
   return "#";
 }

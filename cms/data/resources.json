@@ -308,7 +308,9 @@
       "url": "",
       "version": "2.3.0",
       "dateUpdated": "April 7, 2026",
-      "sortOrder": 9
+      "sortOrder": 9,
+      "year": 2026,
+      "releaseDate": "2026-04-07"
     },
     {
       "id": "ugs-2026-03",
@@ -386,6 +388,46 @@
       "year": 2025,
       "releaseDate": "2025-08-01",
       "sortOrder": 6
+    },
+    {
+      "id": "6939bfa7-3dad-4de1-9c68-8e450c3e3933",
+      "title": "April Release Notes",
+      "description": "Wow cool neat",
+      "section": "release-notes",
+      "type": "link",
+      "filename": "",
+      "url": "https://google.com",
+      "version": "",
+      "dateUpdated": "April 2026",
+      "sortOrder": 10,
+      "year": 2026,
+      "releaseDate": "2026-04-01"
+    },
+    {
+      "id": "2e568890-770a-4d99-ac0a-f38a6786fac1",
+      "title": "April Release Notes 2",
+      "description": "OOps",
+      "section": "release-notes",
+      "type": "pdf",
+      "filename": "",
+      "url": "",
+      "version": "1.1",
+      "dateUpdated": "April",
+      "sortOrder": 11,
+      "year": 2026,
+      "releaseDate": "2026-04-08"
+    },
+    {
+      "id": "73ac0f1f-0e13-4c5d-8ec1-50eab5cf247a",
+      "title": "Not Release Notes",
+      "description": "ASDGH",
+      "section": "user-guides",
+      "type": "pdf",
+      "filename": "EthanKaplan-FrontEndResume_1775751251913.pdf",
+      "url": "",
+      "version": "1",
+      "dateUpdated": "April 2026",
+      "sortOrder": 4
     }
   ]
 }

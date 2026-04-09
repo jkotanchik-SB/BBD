@@ -140,6 +140,8 @@ app.post('/api/resources', (req, res) => {
     url: req.body.url,
     version: req.body.version,
     dateUpdated: req.body.dateUpdated,
+    ...(req.body.releaseDate && { releaseDate: req.body.releaseDate }),
+    ...(req.body.year && { year: Number(req.body.year) }),
     sortOrder: req.body.sortOrder || data.resources.filter((r: any) => r.section === req.body.section).length,
   };
   data.resources.push(newResource);
@@ -354,7 +356,7 @@ const adminHTML = `<!DOCTYPE html>
         </div>
         <div class="form-group" id="releaseDateGroup" style="display:none;">
           <label>Release Date</label>
-          <input type="date" id="resourceReleaseDate">
+          <input type="date" id="resourceReleaseDate" onchange="syncYear()">
         </div>
         <div class="form-group" id="yearGroup" style="display:none;">
           <label>Year</label>
@@ -408,6 +410,13 @@ const adminHTML = `<!DOCTYPE html>
         showMessage('Upload failed', 'error');
       }
     };
+
+    function syncYear() {
+      const date = document.getElementById('resourceReleaseDate').value;
+      if (date) {
+        document.getElementById('resourceYear').value = new Date(date).getUTCFullYear();
+      }
+    }
 
     function toggleFields() {
       const type = document.getElementById('resourceType').value;
