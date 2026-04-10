@@ -1,18 +1,31 @@
 ---
 import { getResources, resourceUrl } from "../lib/cms";
 
-// Fetch the most recent 3 release notes from the CMS
-const allReleaseNotes = await getResources("release-notes");
+const [releaseNotes, slides, userGuides] = await Promise.all([
+  getResources("release-notes"),
+  getResources("user-group-slides"),
+  getResources("user-guides"),
+]);
 
-// Sort by releaseDate descending (fall back to sortOrder for items without a date)
-const sorted = allReleaseNotes.sort((a, b) => {
+const allItems = [...releaseNotes, ...slides, ...userGuides];
+
+// Sort by releaseDate descending; items without a date fall to the end
+const sorted = allItems.sort((a, b) => {
   if (a.releaseDate && b.releaseDate) {
     return new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime();
   }
-  return a.sortOrder - b.sortOrder;
+  if (a.releaseDate) return -1;
+  if (b.releaseDate) return 1;
+  return 0;
 });
 
 const newsItems = sorted.slice(0, 3);
+
+const sectionLabel: Record<string, string> = {
+  "release-notes": "Release Notes",
+  "user-group-slides": "User Group",
+  "user-guides": "User Guide",
+};
 
 function formatDate(iso?: string): string {
   if (!iso) return "";
@@ -35,10 +48,14 @@ function formatDate(iso?: string): string {
       {newsItems.map((item) => {
         const href = resourceUrl(item);
         const isReal = href !== "#";
+        const label = sectionLabel[item.section] ?? item.section;
         return (
           <article class="news-card">
+            <div class="news-card__meta">
+              <time class="news-card__date">{formatDate(item.releaseDate)}</time>
+              <span class="news-card__tag">{label}</span>
+            </div>
             <h3 class="news-card__title">{item.title}</h3>
-            <time class="news-card__date">{formatDate(item.releaseDate)}</time>
             <p class="news-card__excerpt">{item.description}</p>
             {isReal ? (
               <a href={href} class="news-card__link" target="_blank" rel="noopener noreferrer">READ MORE</a>
@@ -86,6 +103,22 @@ function formatDate(iso?: string): string {
     display: flex;
     flex-direction: column;
   }
+  .news-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .news-card__tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--color-primary-lightest, #e8f1fa);
+    color: var(--color-primary-dark);
+    padding: 0.1rem 0.45rem;
+    border-radius: 3px;
+  }
   .news-card__title {
     font-size: 1.15rem;
     color: var(--color-primary-darker);
@@ -94,7 +127,6 @@ function formatDate(iso?: string): string {
   .news-card__date {
     font-size: 0.85rem;
     color: var(--color-base);
-    margin-bottom: 1rem;
   }
   .news-card__excerpt {
     font-size: 0.95rem;
